@@ -1,0 +1,87 @@
+ WITH ChannelSales AS (
+    -- 각 채널별 예측된 매출액을 계산 (상관계수를 적용)
+    SELECT
+        'Store' AS ChannelType,
+        SUM(NumStore * Wines * 0.639) AS EstimatedWinesSales,
+        SUM(NumStore * MntGoldProds * 0.389) AS EstimatedGoldSales ,
+        SUM(NumStore * MntFish * 0.457) AS EstimatedFishSales,
+        SUM(NumStore * MntFruits * 0.459) AS EstimatedFruitsSales,
+        SUM(NumStore * MntMeat * 0.517) AS EstimatedMeatSales,
+        SUM(NumStore * MntSweet * 0.454) AS EstimatedSweetSales
+    FROM ifood_h
+    UNION ALL
+    SELECT
+        'Catalog' AS ChannelType,
+        SUM(NumCatalog * Wines * 0.673) AS EstimatedWinesSales,
+        SUM(NumCatalog * MntGoldProds * 0.471) AS EstimatedGoldSales ,
+        SUM(NumCatalog * MntFish * 0.563) AS EstimatedFishSales,
+        SUM(NumCatalog * MntFruits * 0.514) AS EstimatedFruitsSales,
+        SUM(NumCatalog * MntMeat * 0.714) AS EstimatedMeatSales,
+        SUM(NumCatalog * MntSweet * 0.524) AS EstimatedSweetSales
+    FROM ifood_h
+    UNION ALL
+    SELECT
+        'Web' AS ChannelType,
+        SUM(NumWeb * Wines * 0.552) AS EstimatedWinesSales,
+        SUM(NumWeb * MntGoldProds * 0.406) AS EstimatedGoldSales ,
+        SUM(NumWeb * MntFish * 0.298) AS EstimatedFishSales,
+        SUM(NumWeb * MntFruits * 0.301) AS EstimatedFruitsSales,
+        SUM(NumWeb * MntMeat * 0.329) AS EstimatedMeatSales,
+        SUM(NumWeb * MntSweet * 0.332) AS EstimatedSweetSales
+    FROM ifood_h
+    UNION ALL
+    SELECT
+        'Deals' AS ChannelType,
+        SUM(NumDeals * Wines * 0.012) AS EstimatedWinesSales,
+        SUM(NumDeals * MntGoldProds * 0.057) ASEstimatedGoldSales ,
+        SUM(NumDeals * MntFish * ABS(0.145)) AS EstimatedFishSales,
+        SUM(NumDeals * MntFruits * ABS(0.136)) AS EstimatedFruitsSales,
+        SUM(NumDeals * MntMeat * ABS(0.166)) AS EstimatedMeatSales,
+        SUM(NumDeals * MntSweet * ABS(0.122)) AS EstimatedSweetSales
+    FROM ifood_h
+),
+TotalSales AS (
+    -- 전체 매출 합계를 계산
+    SELECT
+        SUM(EstimatedWinesSales) AS TotalWines,
+        SUM(EstimatedGoldSales ) AS TotalGoldProds,
+        SUM(EstimatedFishSales) AS TotalFish,
+        SUM(EstimatedFruitsSales) AS TotalFruits,
+        SUM(EstimatedMeatSales) AS TotalMeat,
+        SUM(EstimatedSweetSales) AS TotalSweet
+    FROM ChannelSales
+),
+TargetSales AS (
+    -- 목표 매출값을 설정
+    SELECT
+        675093 AS TargetWines,
+        97146 AS TargetGoldProds,
+        83253 AS TargetFish,
+        58219 AS TargetFruits,
+        364513 AS TargetMeat,
+        59818 AS TargetSweet
+),
+NormalizedSales AS (
+    -- 각 채널별로 예측된 매출액을 정규화
+    SELECT
+        ChannelType,
+        ROUND(EstimatedWinesSales * TargetWines / TotalWines, 2) AS NormalizedWines,
+        ROUND(EstimatedGoldSales * TargetGoldProds / TotalGoldProds, 2) AS NormalizedGoldProds,
+        ROUND(EstimatedFishSales * TargetFish / TotalFish, 2) AS NormalizedFish,
+        ROUND(EstimatedFruitsSales * TargetFruits / TotalFruits, 2) AS NormalizedFruits,
+        ROUND(EstimatedMeatSales * TargetMeat / TotalMeat, 2) AS NormalizedMeat,
+        ROUND(EstimatedSweetSales * TargetSweet / TotalSweet, 2) AS NormalizedSweet
+    FROM
+        ChannelSales, TotalSales, TargetSales
+)
+-- 최종 결과 출력
+SELECT
+    ChannelType,
+    SUM(NormalizedWines) AS TotalNormalizedWines,
+    SUM(NormalizedGoldProds) AS TotalNormalizedGoldProds,
+    SUM(NormalizedFish) AS TotalNormalizedFish,
+    SUM(NormalizedFruits) AS TotalNormalizedFruits,
+    SUM(NormalizedMeat) AS TotalNormalizedMeat,
+    SUM(NormalizedSweet) AS TotalNormalizedSweet
+FROM NormalizedSales
+GROUP BY ChannelType

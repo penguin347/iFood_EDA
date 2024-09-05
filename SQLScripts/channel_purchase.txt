@@ -1,0 +1,31 @@
+WITH ChannelPurchaseCounts AS (
+    SELECT
+        id,
+        NumStore,
+        NumCatalog,
+        NumWeb,
+        NumDeals
+    FROM
+        ifood_h
+),
+-- 2. 각 채널별 선호도 계산 및 그룹화
+PreferredChannelAnalysis AS (
+    SELECT
+        id,
+        CASE
+            WHEN NumStore > NumCatalog AND NumStore > NumWeb AND NumStore > NumDeals THEN 'Store'
+            WHEN NumCatalog > NumStore AND NumCatalog > NumWeb AND NumCatalog > NumDeals THEN 'Catalog'
+            WHEN NumWeb > NumStore AND NumWeb > NumCatalog AND NumWeb > NumDeals THEN 'Web'
+            WHEN NumDeals > NumStore AND NumDeals > NumCatalog AND NumDeals > NumWeb THEN 'Deals'
+            ELSE 'Equal'
+        END AS PreferredChannel
+    FROM
+        ChannelPurchaseCounts
+)
+SELECT
+    PreferredChannel,
+    COUNT(id) AS CustomerCount
+FROM
+    PreferredChannelAnalysis
+GROUP BY
+    PreferredChannel
