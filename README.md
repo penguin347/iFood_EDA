@@ -10,16 +10,17 @@ NO.1 DATA team was formed during the 4th Data Analyst course at Programmers in 2
 ## 디렉토리
 
 ### datasets
-ifood_df - 원본 데이터셋
-ifood - 데이터셋 정제본
-dictionary - 원본 데이터셋 컬럼 사전
+ifood_df - Original Dataset
+ifood - Cleaned Dataset
+dictionary - Column Dictionary of the Original Dataset
+
 
 ### SQLScripts
-각 주제 별 sql 쿼리문 모음
+Collection of SQL Queries by Topic
 
 ### 최종 결과물
 최종 보고서, ppt(pdf)
-
+Written by Korean
 
 
 ### SQL source code archiving
