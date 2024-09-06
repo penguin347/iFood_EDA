@@ -1,5 +1,5 @@
 # iFood Customer Insights: EDA for Data-Driven Marketing Optimization
-![ifood](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.abrahao.com.br%2Fblog%2Fadministracao%2Ftaxa-de-servico-ifood&psig=AOvVaw3UtBAHShCeJDvd3s8fPqbz&ust=1725684989915000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKiyg9nDrYgDFQAAAAAdAAAAABAQ)
+![ifood](https://content.captable.com.br/wp-content/webp-express/webp-images/uploads/2022/08/CadastrarRestauranteNoIfood.jpg.webp)
 
 
 ### 박건, 김정민, 조혜진
