@@ -6,8 +6,8 @@
 ## 디렉토리
 
 ### datasets
-ifood_df - 원본 데이터셋
-ifood - 데이터셋 정제본
+ifood_df - 원본 데이터셋 \n
+ifood - 데이터셋 정제본 \n
 dictionary - 원본 데이터셋 컬럼 사전
 
 ### SQLScripts
