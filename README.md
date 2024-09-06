@@ -3,6 +3,7 @@
 
 
 ### 박건, 김정민, 조혜진
+NO.1 DATA team was formed during the 4th Data Analyst course at Programmers in 2024. We learned SQL as a tool for Exploratory Data Analysis (EDA) and, based on this, analyzed the ifood marketing data obtained from Kaggle. Although the analysis period was short, we collaborated effectively and received guidance from experts. Moving forward, we proposed various marketing strategies that ifood should consider.
 
 
 
